@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Numbers>
+  <InsertNumber numberSource="15" numberIn="15" startBit="0" endBit="0" expected="15"/>
+  <InsertNumber numberSource="8" numberIn="15" startBit="0" endBit="0" expected="9"/>
+  <InsertNumber numberSource="8" numberIn="15" startBit="3" endBit="8" expected="120"/>
+</Numbers>
