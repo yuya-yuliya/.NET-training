@@ -8,9 +8,9 @@ namespace FilterLibrary
     /// </summary>
     public class Filter
     {
-        private const int _minDigit = 0;
-        private const int _maxDigit = 9;
-        private const int _systemBase = 10;
+        private const int MinDigit = 0;
+        private const int MaxDigit = 9;
+        private const int SystemBase = 10;
 
         /// <summary>
         /// Filter number list in array of numbers containing the given digit
@@ -44,7 +44,7 @@ namespace FilterLibrary
         /// <returns>True if number is a digit, otherwise false</returns>
         private static bool IsDigit(int number)
         { 
-            if (number >= _minDigit && number <= _maxDigit)
+            if (number >= MinDigit && number <= MaxDigit)
             {
                 return true;
             }
@@ -60,9 +60,9 @@ namespace FilterLibrary
         /// <returns>True if number is containing the digit, otherwise false</returns>
         private static bool HasDigit(int digit, int number)
         {
-            for (int num = number; num != 0; num /= _systemBase)
+            for (int num = number; num != 0; num /= SystemBase)
             {
-                if (Math.Abs(num % _systemBase) == digit)
+                if (Math.Abs(num % SystemBase) == digit)
                 {
                     return true;
                 }
