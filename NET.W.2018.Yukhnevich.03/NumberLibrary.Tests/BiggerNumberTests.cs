@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 using NumberLibrary;
-using System.Diagnostics;
-using System;
 
 namespace NumberLibrary.Tests
 {
@@ -21,29 +19,6 @@ namespace NumberLibrary.Tests
         public int BiggerNumber_FindNextBiggerNumber(int number)
         {
             return BiggerNumber.FindNextBiggerNumber(number);
-        }
-
-        [Test]
-        public void BiggerNumber_FindNextBiggerNumberWithTime_OutParameter()
-        {
-            int number = 1234321;
-            Stopwatch stopwatch = new Stopwatch();
-            TimeSpan findTime = new TimeSpan();
-            stopwatch.Start();
-            int nextBiggerNumber = BiggerNumber.FindNextBiggerNumberWithTime(number, out findTime);
-            stopwatch.Stop();
-            Assert.LessOrEqual(findTime, stopwatch.Elapsed);
-        }
-
-        [Test]
-        public void BiggerNumber_FindNextBiggerNumberWithTime_Tuple()
-        {
-            int number = 1234321;
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            Tuple<int, TimeSpan> nextBiggerAndTime = BiggerNumber.FindNextBiggerNumberWithTime(number);
-            stopwatch.Stop();
-            Assert.LessOrEqual(nextBiggerAndTime.Item2, stopwatch.Elapsed);
         }
     }
 }

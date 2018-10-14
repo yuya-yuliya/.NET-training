@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace NumberLibrary
 {
@@ -15,7 +14,7 @@ namespace NumberLibrary
         /// Find next bigger number contains all digits from source number
         /// </summary>
         /// <param name="number">Source number</param>
-        /// <returns>Next bigger number</returns>
+        /// <returns>First next bigger</returns>
         public static int FindNextBiggerNumber(int number)
         {
             if (number <= 0)
@@ -41,33 +40,6 @@ namespace NumberLibrary
             }
 
             return -1;
-        }
-
-        /// <summary>
-        /// Find next bigger number contains all digits from source number with detecting time spent on finding
-        /// </summary>
-        /// <param name="number">Source number</param>
-        /// <param name="findTime">Time spent on finding</param>
-        /// <returns>Next bigger number</returns>
-        public static int FindNextBiggerNumberWithTime(int number, out TimeSpan findTime)
-        {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            int nextBiggerNumber = FindNextBiggerNumber(number);
-            stopwatch.Stop();
-            findTime = stopwatch.Elapsed;
-            return nextBiggerNumber;
-        }
-
-        /// <summary>
-        /// Find next bigger number contains all digits from source number with detecting time spent on finding
-        /// </summary>
-        /// <param name="number">Source number</param>
-        /// <returns>Tuple of next bigger number and time spent on finding</returns>
-        public static Tuple<int, TimeSpan> FindNextBiggerNumberWithTime(int number)
-        {
-            int nextBiggerNumber = FindNextBiggerNumberWithTime(number, out TimeSpan time);
-            return new Tuple<int, TimeSpan>(nextBiggerNumber, time);
         }
 
         /// <summary>
