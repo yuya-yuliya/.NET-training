@@ -1,11 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
-using ConverterLibrary;
+using DoubleExtensionLibrary;
 
-namespace ConverterLibrary.Tests
+namespace DoubleExtensionLibrary.Tests
 {
     [TestFixture]
-    public class ConverterTests
+    public class DoubleExtensionLibrary
     {
         [TestCase(-255.255, ExpectedResult = "1100000001101111111010000010100011110101110000101000111101011100")] //+
         [TestCase(255.255, ExpectedResult = "0100000001101111111010000010100011110101110000101000111101011100")] //+
@@ -20,7 +20,7 @@ namespace ConverterLibrary.Tests
         [TestCase(0.0, ExpectedResult = "0000000000000000000000000000000000000000000000000000000000000000")]
         public string ConvertDoubleToBinaryString_test(double value)
         {
-            return Converter.ConvertDoubleToBinaryString(value);
+            return value.ConvertDoubleToBinaryString();
         }
     }
 }
