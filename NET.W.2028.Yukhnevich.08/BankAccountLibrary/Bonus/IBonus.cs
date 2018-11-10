@@ -11,10 +11,12 @@ namespace BankAccountLibrary.Bonus
         /// Count of bonus
         /// </summary>
         int BonusCount { get; }
+
         /// <summary>
         /// Add bonus points
         /// </summary>
         void AddBonus();
+
         /// <summary>
         /// Subtract bonus points
         /// </summary>

@@ -13,6 +13,7 @@ namespace BankAccountLibrary.ReadWrite
         /// </summary>
         /// <returns>A collection of T class instances</returns>
         ICollection<T> CollectionRead();
+
         /// <summary>
         /// Write a collection of T class
         /// </summary>

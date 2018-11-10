@@ -22,6 +22,7 @@ namespace NumberLibrary
             {
                 throw new ArgumentException("Argument must be positive integer");
             }
+
             Comparer<byte> reverseOrderComparer = Comparer<byte>.Create((b1, b2) => b2.CompareTo(b1));
             byte[] digits = GetDigitsArr(number);
 
@@ -71,7 +72,7 @@ namespace NumberLibrary
         }
 
         /// <summary>
-        /// Convert number to digits array numering from right to left
+        /// Convert number to digits array numbering from right to left
         /// </summary>
         /// <param name="number"></param>
         /// <returns>Array of digits</returns>
@@ -82,6 +83,7 @@ namespace NumberLibrary
             {
                 digits.Add((byte)(num % SystemBase));
             }
+
             return digits.ToArray();
         }
 
@@ -99,10 +101,12 @@ namespace NumberLibrary
             {
                 throw new IndexOutOfRangeException();
             }
+
             if (endInd < startInd)
             {
                 throw new ArgumentException("Start index should be less or equal than end index");
             }
+
             int biggerInd = -1;
             for (int i = startInd; i <= endInd; i++)
             {
@@ -111,6 +115,7 @@ namespace NumberLibrary
                     biggerInd = i;
                 }
             }
+
             return biggerInd;
         }
 
@@ -130,15 +135,16 @@ namespace NumberLibrary
         /// <summary>
         /// Convert array of digits to number
         /// </summary>
-        /// <param name="digits">Array of digits numering from right to left</param>
+        /// <param name="digits">Array of digits numbering from right to left</param>
         /// <returns></returns>
         private static int GetNumber(byte[] digits)
         {
             int number = 0;
             for (int i = digits.Length - 1; i >= 0; i--)
             {
-                number = number * SystemBase + digits[i];
+                number = (number * SystemBase) + digits[i];
             }
+
             return number;
         }
     }

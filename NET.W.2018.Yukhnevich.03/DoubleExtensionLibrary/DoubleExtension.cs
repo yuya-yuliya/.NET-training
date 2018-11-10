@@ -34,22 +34,22 @@ namespace DoubleExtensionLibrary
         {
             if (value > 0 || (value == 0 && 1 / value > 0))
             {
-                //Positive
+                // Positive
                 return "0";
             }
             else
             {
-                //Negative
+                // Negative
                 return "1";
             }
         }
 
         /// <summary>
-        /// Get byte string of exponenta and normalize double value
+        /// Get byte string of exponent and normalize double value
         /// </summary>
         /// <param name="value">Double value</param>
         /// <param name="normalizedValue">Normalized double value</param>
-        /// <returns>Byte string of exponenta</returns>
+        /// <returns>Byte string of exponent</returns>
         private static string GetExponentString(double value, out double normalizedValue)
         {
             const int ExponentBase = 2;
@@ -60,21 +60,21 @@ namespace DoubleExtensionLibrary
             int exponenta = 0;
             if (double.IsInfinity(value))
             {
-                //Infinity
+                // Infinity
                 value = 0;
                 exponenta = InfinityExponent;
             }
             else if (double.IsNaN(value))
             {
-                //NaN
+                // NaN
                 exponenta = InfinityExponent;
             }
             else
             {
-                //Count exponent
+                // Count exponent
                 if (value > 1)
                 {
-                    //Positive exponent
+                    // Positive exponent
                     while (value > ExponentBase)
                     {
                         exponenta++;
@@ -83,7 +83,7 @@ namespace DoubleExtensionLibrary
                 }
                 else
                 {
-                    //Negative exponent
+                    // Negative exponent
                     while (value < 1)
                     {
                         exponenta--;
@@ -91,10 +91,12 @@ namespace DoubleExtensionLibrary
                         {
                             break;
                         }
+
                         value *= ExponentBase;
                     }
                 }
             }
+
             normalizedValue = value;
             return ExponentaToString(exponenta);
         }
@@ -116,13 +118,14 @@ namespace DoubleExtensionLibrary
                 exponentaStringBuilder.Insert(0, exponenta & 1);
                 exponenta >>= 1;
             }
+
             return exponentaStringBuilder.ToString();
         }
 
         /// <summary>
-        /// Get binary string of mantissa of normalized double value or denormalized if normalization isn't posible
+        /// Get binary string of mantissa of normalized double value or denormalize if normalization isn't possible
         /// </summary>
-        /// <param name="normalizedValue">Normalized double value or denormalized if normalization isn't posible</param>
+        /// <param name="normalizedValue">Normalized double value or denormalize if normalization doesn't possible</param>
         /// <returns>Binary string of mantissa</returns>
         private static string GetMantissaString(double normalizedValue)
         {
@@ -137,17 +140,19 @@ namespace DoubleExtensionLibrary
             bool isDenormalized = false;
             bool isNaN = false;
             StringBuilder mantissaStringBuilder = new StringBuilder();
-            //Denormalize check
+
+            // Denormalize check
             if (normalizedValue < 1 && normalizedValue != 0)
             {
                 isDenormalized = true;
             }
-            //NaN check
             else if (double.IsNaN(normalizedValue))
             {
+                // Is NaN
                 isNaN = true;
             }
-            //Transform value to binary string
+
+            // Transform value to binary string
             normalizedValue -= 1;
             for (int i = 0; i < MantissaFieldLength; i++)
             {
@@ -165,6 +170,7 @@ namespace DoubleExtensionLibrary
                     mantissaStringBuilder.Append(0);
                 }
             }
+
             return mantissaStringBuilder.ToString();
         }
     }

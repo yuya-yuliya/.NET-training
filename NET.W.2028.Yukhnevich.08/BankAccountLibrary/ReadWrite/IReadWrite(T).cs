@@ -11,6 +11,7 @@
         /// </summary>
         /// <returns>New instance of T class</returns>
         T Read();
+
         /// <summary>
         /// Write T class instance
         /// </summary>

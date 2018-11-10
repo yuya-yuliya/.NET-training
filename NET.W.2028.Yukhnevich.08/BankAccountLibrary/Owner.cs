@@ -6,15 +6,6 @@
     public class Owner
     {
         /// <summary>
-        /// The owner name
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// The owner surname
-        /// </summary>
-        public string Surname { get; set; }
-
-        /// <summary>
         /// Initialize the new instance of Owner class that has information
         /// </summary>
         /// <param name="name">The owner name</param>
@@ -26,9 +17,19 @@
         }
 
         /// <summary>
+        /// The owner name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The owner surname
+        /// </summary>
+        public string Surname { get; set; }
+
+        /// <summary>
         /// Get string of the owner information
         /// </summary>
-        /// <returns>The string with infoormation of owner</returns>
+        /// <returns>The string with information of owner</returns>
         public override string ToString()
         {
             return $"{Name} {Surname}";

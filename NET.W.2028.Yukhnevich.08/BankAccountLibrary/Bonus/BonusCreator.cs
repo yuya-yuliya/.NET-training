@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace BankAccountLibrary.Bonus
 {
     /// <summary>
-    /// Class provides method to cteate bonus of bank account with start amount
+    /// Class provides method to create bonus of bank account with start amount
     /// </summary>
     public class BonusCreator
     {
         /// <summary>
-        /// Cteate bonus of bank account with start amount
+        /// Create bonus of bank account with start amount
         /// </summary>
         /// <param name="bonusType">Type of bonus</param>
         /// <param name="bonusCount">Start bonus amount</param>
@@ -27,6 +27,7 @@ namespace BankAccountLibrary.Bonus
             {
                 return bonus;
             }
+
             throw new ArgumentException($"There is no {bonusType} type of bonus");
         }
     }

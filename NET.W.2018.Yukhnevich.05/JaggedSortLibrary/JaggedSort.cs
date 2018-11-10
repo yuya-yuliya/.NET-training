@@ -47,6 +47,7 @@ namespace JaggedSortLibrary
             {
                 throw new ArgumentNullException("Arguments must be initialized");
             }
+
             for (int i = 0; i < jaggedArray.Length; i++)
             {
                 for (int j = 0; j < jaggedArray.Length - 1; j++)
@@ -75,7 +76,7 @@ namespace JaggedSortLibrary
         /// <summary>
         /// Class provides method to compare one-dimensional by sum of elements and implements interface IComparer&ltint[]$gt
         /// </summary>
-        class ArraySumComparer : IComparer<int[]>
+        public class ArraySumComparer : IComparer<int[]>
         {
             /// <summary>
             /// Compare two one-dimensional arrays by sum of elements
@@ -100,13 +101,14 @@ namespace JaggedSortLibrary
                 {
                     return -1;
                 }
+
                 return 0;
             }
 
             /// <summary>
             /// Count sum of array elements
             /// </summary>
-            /// <param name="array">One-demensional array</param>
+            /// <param name="array">One-dimensional array</param>
             /// <returns>Sum of array elements</returns>
             private int CountSum(int[] array)
             {
@@ -115,6 +117,7 @@ namespace JaggedSortLibrary
                 {
                     sum += array[i];
                 }
+
                 return sum;
             }
         }
@@ -122,7 +125,7 @@ namespace JaggedSortLibrary
         /// <summary>
         /// Class provides method to compare one-dimensional by maximum element and implements interface IComparer&ltint[]$gt
         /// </summary>
-        class MaxInArrayComparer : IComparer<int[]>
+        public class MaxInArrayComparer : IComparer<int[]>
         {
             /// <summary>
             /// Compare two one-dimensional arrays by maximum element
@@ -147,13 +150,14 @@ namespace JaggedSortLibrary
                 {
                     return -1;
                 }
+
                 return 0;
             }
 
             /// <summary>
             /// Get value of maximum element in array
             /// </summary>
-            /// <param name="array">One-demensional array</param>
+            /// <param name="array">One-dimensional array</param>
             /// <returns>Value of maximum element</returns>
             /// <exception cref="ArgumentException">Array has no elements</exception>
             private int GetMaxValue(int[] array)
@@ -162,6 +166,7 @@ namespace JaggedSortLibrary
                 {
                     throw new ArgumentException("Array must contain at least one element");
                 }
+
                 int max = array[0];
                 for (int i = 1; i < array.Length; i++)
                 {
@@ -170,6 +175,7 @@ namespace JaggedSortLibrary
                         max = array[i];
                     }
                 }
+
                 return max;
             }
         }
@@ -177,7 +183,7 @@ namespace JaggedSortLibrary
         /// <summary>
         /// Class provides method to compare one-dimensional by minimum element and implements interface IComparer&ltint[]$gt
         /// </summary>
-        class MinInArrayComparer : IComparer<int[]>
+        public class MinInArrayComparer : IComparer<int[]>
         {
             /// <summary>
             /// Compare two one-dimensional arrays by minimum element
@@ -202,13 +208,14 @@ namespace JaggedSortLibrary
                 {
                     return -1;
                 }
+
                 return 0;
             }
 
             /// <summary>
             /// Get value of minimum element in array
             /// </summary>
-            /// <param name="array">One-demensional array</param>
+            /// <param name="array">One-dimensional array</param>
             /// <returns>Value of minimum element</returns>
             /// <exception cref="ArgumentException">Array has no elements</exception>
             private int GetMinValue(int[] array)
@@ -217,6 +224,7 @@ namespace JaggedSortLibrary
                 {
                     throw new ArgumentException("Array must contain at least one element");
                 }
+
                 int min = array[0];
                 for (int i = 1; i < array.Length; i++)
                 {
@@ -225,6 +233,7 @@ namespace JaggedSortLibrary
                         min = array[i];
                     }
                 }
+
                 return min;
             }
         }

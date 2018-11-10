@@ -4,7 +4,7 @@ using System.IO;
 namespace BankAccountLibrary.ReadWrite
 {
     /// <summary>
-    /// Class provides methods for read and wtite in binary form to file of owner information
+    /// Class provides methods for read and write in binary form to file of owner information
     /// </summary>
     public class OwnerBinaryReadWrite : IReadWrite<Owner>
     {
@@ -32,6 +32,7 @@ namespace BankAccountLibrary.ReadWrite
             {
                 throw new MethodAccessException("Binary reader is null");
             }
+
             string name = reader.ReadString();
             string surname = reader.ReadString();
             return new Owner(name, surname);
@@ -47,6 +48,7 @@ namespace BankAccountLibrary.ReadWrite
             {
                 throw new MethodAccessException("Binary writer is null");
             }
+
             writer.Write(item.Name);
             writer.Write(item.Surname);
         }

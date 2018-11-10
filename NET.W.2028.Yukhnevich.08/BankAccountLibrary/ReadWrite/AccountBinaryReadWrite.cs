@@ -1,11 +1,11 @@
-﻿using BankAccountLibrary.Bonus;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using BankAccountLibrary.Bonus;
 
 namespace BankAccountLibrary.ReadWrite
 {
     /// <summary>
-    /// Class provides methods for read and wtite in binary form to file of bank account information
+    /// Class provides methods for read and write in binary form to file of bank account information
     /// </summary>
     public class AccountBinaryReadWrite : ICollectionReadWrite<BankAccount>
     {
@@ -76,6 +76,7 @@ namespace BankAccountLibrary.ReadWrite
                     accounts.Add(ReadAccount(reader));
                 }
             }
+
             return accounts;
         }
 
@@ -97,6 +98,7 @@ namespace BankAccountLibrary.ReadWrite
             {
                 bankAccount.Close();
             }
+
             return bankAccount;
         }
 
@@ -110,7 +112,7 @@ namespace BankAccountLibrary.ReadWrite
             writer.Write(account.AccountNumber);
             new OwnerBinaryReadWrite(null, writer).Write(account.AccountOwner);
             writer.Write(account.Amount);
-            writer.Write(account.bonus.GetType().ToString());
+            writer.Write(account.Bonus.GetType().ToString());
             writer.Write(account.BonusCount);
             writer.Write(account.IsClosed);
         }

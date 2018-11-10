@@ -5,10 +5,6 @@
     /// </summary>
     public class BaseBonus : IBonus
     {
-        /// <summary>
-        /// Count of bonus
-        /// </summary>
-        public int BonusCount { get; internal set; }
         private int additionCount = 5;
         private int subtitutionCount = 3;
 
@@ -16,7 +12,8 @@
         /// Initialize a new instance of bonus
         /// </summary>
         public BaseBonus()
-        { }
+        {
+        }
 
         /// <summary>
         /// Initialize a new instance with start count of bonus
@@ -26,6 +23,11 @@
         {
             BonusCount = bonusCount;
         }
+
+        /// <summary>
+        /// Count of bonus
+        /// </summary>
+        public int BonusCount { get; internal set; }
 
         /// <summary>
         /// Add bonus points

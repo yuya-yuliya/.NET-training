@@ -1,6 +1,6 @@
-﻿using BankAccountLibrary.Bonus;
-using System;
+﻿using System;
 using System.Threading;
+using BankAccountLibrary.Bonus;
 
 namespace BankAccountLibrary
 {
@@ -9,38 +9,19 @@ namespace BankAccountLibrary
     /// </summary>
     public class BankAccount
     {
-        internal IBonus bonus;
-        private int isClosed;
-        private object locker = new object();
-        private const string negativeAmountEx = "Amount must be positive number";
-        private const string accountClosedEx = "Account has already closed";
-
         /// <summary>
         /// Identification number of account
         /// </summary>
         public readonly string AccountNumber;
+
         /// <summary>
         /// The account owner information
         /// </summary>
         public readonly Owner AccountOwner;
-        /// <summary>
-        /// Corrent amount in the account
-        /// </summary>
-        public decimal Amount { get; private set; }
-        /// <summary>
-        /// True if the account is closed, false otherwise
-        /// </summary>
-        public bool IsClosed => isClosed != 0;
-        /// <summary>
-        /// Count of bonus in the account
-        /// </summary>
-        public int BonusCount
-        {
-            get
-            {
-                return bonus.BonusCount;
-            }
-        }
+        private const string NegativeAmountEx = "Amount must be positive number";
+        private const string AccountClosedEx = "Account has already closed";
+        private int isClosed;
+        private object locker = new object();
 
         /// <summary>
         /// Initialize new instance of BankAccount class with needed information
@@ -53,9 +34,32 @@ namespace BankAccountLibrary
         {
             AccountNumber = accountNumber;
             AccountOwner = owner;
-            this.bonus = bonus;
+            this.Bonus = bonus;
             Amount = startAmount;
             isClosed = 0;
+        }
+
+        public IBonus Bonus { get; internal set; }
+
+        /// <summary>
+        /// Current amount in the account
+        /// </summary>
+        public decimal Amount { get; private set; }
+
+        /// <summary>
+        /// True if the account is closed, false otherwise
+        /// </summary>
+        public bool IsClosed => isClosed != 0;
+
+        /// <summary>
+        /// Count of bonus in the account
+        /// </summary>
+        public int BonusCount
+        {
+            get
+            {
+                return Bonus.BonusCount;
+            }
         }
 
         /// <summary>
@@ -68,22 +72,24 @@ namespace BankAccountLibrary
         {
             if (IsClosed)
             {
-                throw new MethodAccessException(accountClosedEx);
+                throw new MethodAccessException(AccountClosedEx);
             }
+
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException(negativeAmountEx);
+                throw new ArgumentOutOfRangeException(NegativeAmountEx);
             }
+
             lock (locker)
             {
                 if (!IsClosed)
                 {
                     Amount += amount;
-                    bonus.AddBonus();
+                    Bonus.AddBonus();
                 }
                 else
                 {
-                    throw new MethodAccessException(accountClosedEx);
+                    throw new MethodAccessException(AccountClosedEx);
                 }
             }
         }
@@ -99,12 +105,14 @@ namespace BankAccountLibrary
         {
             if (IsClosed)
             {
-                throw new MethodAccessException(accountClosedEx);
+                throw new MethodAccessException(AccountClosedEx);
             }
+
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException(negativeAmountEx);
+                throw new ArgumentOutOfRangeException(NegativeAmountEx);
             }
+
             lock (locker)
             {
                 if (!IsClosed)
@@ -113,12 +121,13 @@ namespace BankAccountLibrary
                     {
                         throw new Exception("Current amount less than withdraw");
                     }
+
                     Amount -= amount;
-                    bonus.SubBonus();
+                    Bonus.SubBonus();
                 }
                 else
                 {
-                    throw new MethodAccessException(accountClosedEx);
+                    throw new MethodAccessException(AccountClosedEx);
                 }
             }
         }
@@ -140,7 +149,7 @@ namespace BankAccountLibrary
             return $"Account number: {AccountNumber} " +
                 $"Account owner: {AccountOwner.ToString()} " +
                 $"Amount: {Amount} " +
-                $"Bonus type: {bonus.ToString()} " +
+                $"Bonus type: {Bonus.ToString()} " +
                 $"Bonus count: {BonusCount} " +
                 $"Is closed: {IsClosed}";
         }

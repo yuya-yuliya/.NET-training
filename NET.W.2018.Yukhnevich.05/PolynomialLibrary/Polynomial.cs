@@ -25,21 +25,6 @@ namespace PolynomialLibrary
         }
 
         /// <summary>
-        /// Calculate value of polynomial expression 
-        /// </summary>
-        /// <param name="x">Parameter value</param>
-        /// <returns>Value of polynom</returns>
-        public double Calculate(double x)
-        {
-            double value = 0;
-            for (int i = 0; i < coefficients.Length; i++)
-            {
-                value += coefficients[i] * Math.Pow(x, i);
-            }
-            return value;
-        }
-
-        /// <summary>
         /// Get array of polynomial coefficients
         /// </summary>
         public double[] Coefficients
@@ -55,9 +40,9 @@ namespace PolynomialLibrary
         /// <summary>
         /// Compare polynomials content
         /// </summary>
-        /// <param name="pol1">First polynom</param>
-        /// <param name="pol2">Second polynom</param>
-        /// <returns>True if content is equal, folse otherwise</returns>
+        /// <param name="pol1">First polynomial</param>
+        /// <param name="pol2">Second polynomial</param>
+        /// <returns>True if content is equal, false otherwise</returns>
         public static bool operator ==(Polynomial pol1, Polynomial pol2)
         {
             return pol1.Equals(pol2);
@@ -66,9 +51,9 @@ namespace PolynomialLibrary
         /// <summary>
         /// Compare polynomials content
         /// </summary>
-        /// <param name="pol1">First polynom</param>
-        /// <param name="pol2">Second polynom</param>
-        /// <returns>True if content is not equal, folse otherwise</returns>
+        /// <param name="pol1">First polynomial</param>
+        /// <param name="pol2">Second polynomial</param>
+        /// <returns>True if content is not equal, false otherwise</returns>
         public static bool operator !=(Polynomial pol1, Polynomial pol2)
         {
             return !pol1.Equals(pol2);
@@ -77,8 +62,8 @@ namespace PolynomialLibrary
         /// <summary>
         /// Performs addition of two polynomials
         /// </summary>
-        /// <param name="pol1">First polynom</param>
-        /// <param name="pol2">Second polynom</param>
+        /// <param name="pol1">First polynomial</param>
+        /// <param name="pol2">Second polynomial</param>
         /// <returns>New polynomial with addition results</returns>
         public static Polynomial operator +(Polynomial pol1, Polynomial pol2)
         {
@@ -88,8 +73,8 @@ namespace PolynomialLibrary
         /// <summary>
         /// Performs subtraction of two polynomials
         /// </summary>
-        /// <param name="pol1">First polynom</param>
-        /// <param name="pol2">Second polynom</param>
+        /// <param name="pol1">First polynomial</param>
+        /// <param name="pol2">Second polynomial</param>
         /// <returns>New Polynomial with subtraction results</returns>
         public static Polynomial operator -(Polynomial pol1, Polynomial pol2)
         {
@@ -97,29 +82,10 @@ namespace PolynomialLibrary
         }
 
         /// <summary>
-        /// Perform operation with coefficients on the same positiond
-        /// </summary>
-        /// <param name="operation">Operation to perform</param>
-        /// <param name="pol1">First polynom</param>
-        /// <param name="pol2">Second polynom</param>
-        /// <returns>New polynomial with result of operation</returns>
-        private static Polynomial AddSubOperation(Func<double, double, double> operation, Polynomial pol1, Polynomial pol2)
-        {
-            double[] coeff1 = pol1.coefficients;
-            double[] coeff2 = pol2.coefficients;
-            double[] resultCoeff = new double[Math.Max(coeff1.Length, coeff2.Length)];
-            for (int i = 0; i < resultCoeff.Length; i++)
-            {
-                resultCoeff[i] = operation(i < coeff1.Length ? coeff1[i] : 0, i < coeff2.Length ? coeff2[i] : 0);
-            }
-            return new Polynomial(resultCoeff);
-        }
-
-        /// <summary>
         /// Performs multiplication of two polynomials
         /// </summary>
-        /// <param name="pol1">First polynom</param>
-        /// <param name="pol2">Second polynom</param>
+        /// <param name="pol1">First polynomial</param>
+        /// <param name="pol2">Second polynomial</param>
         /// <returns>New polynomial with multiplication results</returns>
         public static Polynomial operator *(Polynomial pol1, Polynomial pol2)
         {
@@ -133,6 +99,7 @@ namespace PolynomialLibrary
                     resultCoeff[i + j] += coeff1[i] * coeff2[j];
                 }
             }
+
             return new Polynomial(resultCoeff);
         }
 
@@ -140,7 +107,7 @@ namespace PolynomialLibrary
         /// Performs multiplication of polynomial and constant value
         /// </summary>
         /// <param name="value">Value to multiply</param>
-        /// <param name="pol">Polinomial</param>
+        /// <param name="pol">Polynomial</param>
         /// <returns>New polynomial with multiplication results</returns>
         public static Polynomial operator *(double value, Polynomial pol)
         {
@@ -150,7 +117,7 @@ namespace PolynomialLibrary
         /// <summary>
         /// Performs multiplication of polynomial and constant value
         /// </summary>
-        /// <param name="pol">Polinomial</param>
+        /// <param name="pol">Polynomial</param>
         /// <param name="value">Value to multiply</param>
         /// <returns>New polynomial with multiplication results</returns>
         public static Polynomial operator *(Polynomial pol, double value)
@@ -161,29 +128,28 @@ namespace PolynomialLibrary
         /// <summary>
         /// Performs division of polynomial on constant value
         /// </summary>
-        /// <param name="pol">Polinomial</param>
+        /// <param name="pol">Polynomial</param>
         /// <param name="value">Value to divide</param>
-        /// <returns>New polynomial with divition results</returns>
+        /// <returns>New polynomial with division results</returns>
         public static Polynomial operator /(Polynomial pol, double value)
         {
             return CoefficientsModify((x) => x / value, pol);
         }
 
         /// <summary>
-        /// Perform operation with coefficients of polynomial
+        /// Calculate value of polynomial expression 
         /// </summary>
-        /// <param name="operation">Operation on coefficients</param>
-        /// <param name="pol">Polynomial</param>
-        /// <returns>New polynomial with operation results</returns>
-        private static Polynomial CoefficientsModify(Func<double, double> operation, Polynomial pol)
+        /// <param name="x">Parameter value</param>
+        /// <returns>Value of polynomial</returns>
+        public double Calculate(double x)
         {
-            double[] oldCoeff = pol.coefficients;
-            double[] resultCoeff = new double[oldCoeff.Length];
-            for (int i = 0; i < resultCoeff.Length; i++)
+            double value = 0;
+            for (int i = 0; i < coefficients.Length; i++)
             {
-                resultCoeff[i] = operation(oldCoeff[i]);
+                value += coefficients[i] * Math.Pow(x, i);
             }
-            return new Polynomial(resultCoeff);
+
+            return value;
         }
 
         /// <summary>
@@ -197,6 +163,7 @@ namespace PolynomialLibrary
             {
                 return true;
             }
+
             if (obj == null || obj.GetType() != GetType())
             {
                 return false;
@@ -218,9 +185,10 @@ namespace PolynomialLibrary
             {
                 foreach (int coefficient in coefficients)
                 {
-                    hash = hash * hashBase + coefficient;
+                    hash = (hash * hashBase) + coefficient;
                 }
             }
+
             return hash;
         }
 
@@ -242,7 +210,46 @@ namespace PolynomialLibrary
                     polynomStrBuilder.Append($"+{coefficients[i]}x^{i}");
                 }
             }
+
             return polynomStrBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Perform operation with coefficients on the same positions
+        /// </summary>
+        /// <param name="operation">Operation to perform</param>
+        /// <param name="pol1">First polynomial</param>
+        /// <param name="pol2">Second polynomial</param>
+        /// <returns>New polynomial with result of operation</returns>
+        private static Polynomial AddSubOperation(Func<double, double, double> operation, Polynomial pol1, Polynomial pol2)
+        {
+            double[] coeff1 = pol1.coefficients;
+            double[] coeff2 = pol2.coefficients;
+            double[] resultCoeff = new double[Math.Max(coeff1.Length, coeff2.Length)];
+            for (int i = 0; i < resultCoeff.Length; i++)
+            {
+                resultCoeff[i] = operation(i < coeff1.Length ? coeff1[i] : 0, i < coeff2.Length ? coeff2[i] : 0);
+            }
+
+            return new Polynomial(resultCoeff);
+        }
+
+        /// <summary>
+        /// Perform operation with coefficients of polynomial
+        /// </summary>
+        /// <param name="operation">Operation on coefficients</param>
+        /// <param name="pol">Polynomial</param>
+        /// <returns>New polynomial with operation results</returns>
+        private static Polynomial CoefficientsModify(Func<double, double> operation, Polynomial pol)
+        {
+            double[] oldCoeff = pol.coefficients;
+            double[] resultCoeff = new double[oldCoeff.Length];
+            for (int i = 0; i < resultCoeff.Length; i++)
+            {
+                resultCoeff[i] = operation(oldCoeff[i]);
+            }
+
+            return new Polynomial(resultCoeff);
         }
     }
 }

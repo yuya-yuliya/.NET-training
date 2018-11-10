@@ -76,6 +76,7 @@ namespace GCDLibrary
             {
                 gcd = gcdFinder(gcd, Math.Abs(numList[i]));
             }
+
             return gcd;
         }
 
@@ -113,6 +114,7 @@ namespace GCDLibrary
                 num2 = num1 % num2;
                 num1 = temp;
             }
+
             return num1;
         }
 
@@ -128,10 +130,12 @@ namespace GCDLibrary
             {
                 return num2;
             }
+
             if (num2 == 0)
             {
                 return num1;
             }
+
             if ((num1 & 1) == 0)
             {
                 if ((num2 & 1) == 0)
@@ -143,10 +147,12 @@ namespace GCDLibrary
                     return BinaryGCD(num1 >> 1, num2);
                 }
             }
+
             if ((num2 & 1) == 0)
             {
                 return BinaryGCD(num1, num2 >> 1);
             }
+
             if (num1 > num2)
             {
                 return BinaryGCD((num1 - num2) >> 1, num2);
