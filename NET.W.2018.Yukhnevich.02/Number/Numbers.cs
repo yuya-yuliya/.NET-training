@@ -11,7 +11,6 @@ namespace Number
     /// </summary>
     public class Numbers
     {
-
         private const int BitsInByte = 8;
 
         /// <summary>
@@ -28,10 +27,12 @@ namespace Number
             {
                 throw new ArgumentException("Value of endBit mustn't be less than startBit");
             }
-            if (endBit >= sizeof(int) * BitsInByte || startBit >= sizeof(int) * BitsInByte || endBit < 0 || startBit < 0 )
+
+            if ((endBit >= sizeof(int) * BitsInByte) || (startBit >= sizeof(int) * BitsInByte) || (endBit < 0) || (startBit < 0))
             {
-                throw new ArgumentException("Start and end bits must be positive and less than " + sizeof(int) * BitsInByte);
+                throw new ArgumentException("Start and end bits must be positive and less than " + (sizeof(int) * BitsInByte));
             }
+
             for (int i = startBit; i <= endBit; i++)
             {
                 numberSource = numberSource & ~(1 << i) | ((numberIn & 1) << i);
