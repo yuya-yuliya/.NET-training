@@ -1,4 +1,5 @@
 ﻿using BookLibrary.Finders;
+using BookLibrary.Logging;
 using BookLibrary.Sort;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,13 @@ namespace BookLibrary
     /// </summary>
     public class BookListService
     {
+        private static ILogger logger;
+
+        static BookListService()
+        {
+            logger = new NLogger(typeof(BookListService).ToString());
+        }
+
         /// <summary>
         /// Enumeration of tag types
         /// </summary>
@@ -35,9 +43,12 @@ namespace BookLibrary
         {
             if (books.Contains(book))
             {
+                logger.Warn($"Try to add the exsisting book: {book}");
                 throw new ArgumentException($"Collection is already contains {book}");
             }
+           
             books.Add(book);
+            logger.Info($"Successfully add {book}");
         }
 
         /// <summary>
@@ -51,9 +62,19 @@ namespace BookLibrary
         {
             if (!books.Contains(book))
             {
+                logger.Warn($"Try to remove the non-existing book: {book}");
                 throw new ArgumentException($"Collection doesn't contain {book}");
             }
-            return books.Remove(book);
+            if (books.Remove(book))
+            {
+                logger.Info($"Successfully remove: {book}");
+                return true;
+            }
+            else
+            {
+                logger.Info($"Remove failed: {book}");
+                return false;
+            }
         }
 
         /// <summary>
@@ -67,15 +88,23 @@ namespace BookLibrary
         {
             Dictionary<Tag, IBookFinder> findDict = new Dictionary<Tag, IBookFinder>
             {
-                [Tag.Author] = (IBookFinder)new ByAuthorFinder(),
-                [Tag.CountPages] = (IBookFinder)new ByCountPagesFinder(),
-                [Tag.Isbn] = (IBookFinder)new ByIsbnFinder(),
-                [Tag.Price] = (IBookFinder)new ByPriceFinder(),
-                [Tag.Publisher] = (IBookFinder)new ByPublisherFinder(),
-                [Tag.Title] = (IBookFinder)new ByTitleFinder(),
-                [Tag.Year] = (IBookFinder)new ByYearFinder()
+                [Tag.Author] = new ByAuthorFinder(),
+                [Tag.CountPages] = new ByCountPagesFinder(),
+                [Tag.Isbn] = new ByIsbnFinder(),
+                [Tag.Price] = new ByPriceFinder(),
+                [Tag.Publisher] = new ByPublisherFinder(),
+                [Tag.Title] = new ByTitleFinder(),
+                [Tag.Year] = new ByYearFinder()
             };
-            return findDict[tag].Find(books, value);
+            try
+            {
+                return findDict[tag].Find(books, value);
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Find book by tag exception: {ex}\nArguments: {books}\n{tag}\n{value}");
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -96,7 +125,15 @@ namespace BookLibrary
                 [Tag.Title] = new ByTitleSorter(),
                 [Tag.Year] = new ByYearSorter()
             };
-            return findDict[tag].Sort(books);
+            try
+            {
+                return findDict[tag].Sort(books);
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Sort books by tag exception: {ex}\nArguments: {books}\n{tag}");
+                throw ex;
+            }
         }
     }
 }
