@@ -3,8 +3,18 @@ using System.Collections.Generic;
 
 namespace BinSearchLibrary
 {
+    /// <summary>
+    /// Provides static method for finding index of element in sorted array
+    /// </summary>
     public class BinSearch
     {
+        /// <summary>
+        /// Finds index of element in sorted array
+        /// </summary>
+        /// <typeparam name="T">Type of elements</typeparam>
+        /// <param name="array">Sorted array</param>
+        /// <param name="item">Element to find</param>
+        /// <returns>Index of element in array if array contains this element, otherwise -1</returns>
         public static int FindIndex<T>(T[] array, T item)
         {
             if (array == null)
@@ -32,7 +42,8 @@ namespace BinSearchLibrary
                 {
                     throw new ArgumentException($"{nameof(array)} must be sorted");
                 }
-                int midInd = firstInd + (lastInd - firstInd) / 2;
+
+                int midInd = firstInd + ((lastInd - firstInd) / 2);
                 if (defComparer.Compare(item, array[midInd]) <= 0)
                 {
                     lastInd = midInd;

@@ -3,8 +3,15 @@ using System.Collections.Generic;
 
 namespace FibonacciLibrary
 {
+    /// <summary>
+    /// Provides static method to generate Fibonacci sequence
+    /// </summary>
     public class FibonacciNumbers
     {
+        /// <summary>
+        /// Generate Fibonacci sequence
+        /// </summary>
+        /// <returns>Fibonacci sequence</returns>
         public static IEnumerable<long> FibonacciNumbersSequence()
         {
             long prev = 1, curr = 1;
@@ -21,6 +28,7 @@ namespace FibonacciLibrary
                 {
                     break;
                 }
+
                 prev = curr;
                 curr = sum;
             }
