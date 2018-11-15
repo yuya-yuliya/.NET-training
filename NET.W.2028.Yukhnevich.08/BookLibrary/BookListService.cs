@@ -1,5 +1,4 @@
 ﻿using BookLibrary.Finders;
-using BookLibrary.Logging;
 using BookLibrary.Sort;
 using System;
 using System.Collections.Generic;
@@ -12,13 +11,6 @@ namespace BookLibrary
     /// </summary>
     public class BookListService
     {
-        private static ILogger logger;
-
-        static BookListService()
-        {
-            logger = new NLogger(typeof(BookListService).ToString());
-        }
-
         /// <summary>
         /// Enumeration of tag types
         /// </summary>
@@ -43,12 +35,10 @@ namespace BookLibrary
         {
             if (books.Contains(book))
             {
-                logger.Warn($"Try to add the exsisting book: {book}");
                 throw new ArgumentException($"Collection is already contains {book}");
             }
            
             books.Add(book);
-            logger.Info($"Successfully add {book}");
         }
 
         /// <summary>
@@ -62,19 +52,10 @@ namespace BookLibrary
         {
             if (!books.Contains(book))
             {
-                logger.Warn($"Try to remove the non-existing book: {book}");
                 throw new ArgumentException($"Collection doesn't contain {book}");
             }
-            if (books.Remove(book))
-            {
-                logger.Info($"Successfully remove: {book}");
-                return true;
-            }
-            else
-            {
-                logger.Info($"Remove failed: {book}");
-                return false;
-            }
+
+            return books.Remove(book);
         }
 
         /// <summary>
@@ -100,10 +81,13 @@ namespace BookLibrary
             {
                 return findDict[tag].Find(books, value);
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                logger.Error($"Find book by tag exception: {ex}\nArguments: {books}\n{tag}\n{value}");
-                throw ex;
+                throw new ArgumentException($"{nameof(tag)} is invalid", ex);
+            }
+            catch (InvalidCastException ex)
+            {
+                throw new ArgumentException($"{nameof(value)} has invalid tipe for current tag type", ex);
             }
         }
 
@@ -129,10 +113,9 @@ namespace BookLibrary
             {
                 return findDict[tag].Sort(books);
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                logger.Error($"Sort books by tag exception: {ex}\nArguments: {books}\n{tag}");
-                throw ex;
+                throw new ArithmeticException($"{nameof(tag)} is invalid", ex);
             }
         }
     }
