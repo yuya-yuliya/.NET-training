@@ -85,6 +85,28 @@ namespace DAL.Interface.DTO
         }
 
         /// <summary>
+        /// Checks the equality
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+            {
+                return true;
+            }
+
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            Owner owner = (Owner)obj;
+            return owner.FirstName == this.FirstName &&
+                owner.LastName == this.LastName;
+        }
+
+        /// <summary>
         /// Provides the string representation of owner
         /// </summary>
         /// <returns>The string representation of owner</returns>

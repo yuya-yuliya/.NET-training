@@ -122,6 +122,28 @@ namespace DAL.Interface.DTO
         }
 
         /// <summary>
+        /// Checks the equality
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+            {
+                return true;
+            }
+
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            Account account = (Account)obj;
+            return account._accountNumber == this._accountNumber &&
+                this._accountOwner.Equals(account._accountOwner);
+        }
+
+        /// <summary>
         /// Provides the string representation of current account
         /// </summary>
         /// <returns>The string representation of current account</returns>
