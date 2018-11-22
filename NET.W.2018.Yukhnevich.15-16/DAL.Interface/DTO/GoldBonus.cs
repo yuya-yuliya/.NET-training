@@ -1,17 +1,18 @@
 ﻿using DAL.Interface.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Interface.DTO
 {
+    /// <summary>
+    /// Provides methods for counting gold bonus
+    /// </summary>
     public class GoldBonus : BaseBonus, IBonus
     {
+        /// <summary>
+        /// Initialize new instance of GoldBonus class
+        /// </summary>
         public GoldBonus()
         {
-            Multipluer = 50;
+            this._multiplier = 50;
         }
     }
 }

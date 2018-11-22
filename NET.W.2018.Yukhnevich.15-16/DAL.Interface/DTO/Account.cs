@@ -1,18 +1,34 @@
-﻿using DAL.Interface.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using DAL.Interface.Interfaces;
 
 namespace DAL.Interface.DTO
 {
+    /// <summary>
+    /// Represents information about the account and allows to interact with it
+    /// </summary>
     public class Account
     {
+        /// <summary>
+        /// The account number
+        /// </summary>
         private string _accountNumber;
+
+        /// <summary>
+        /// The account owner
+        /// </summary>
         private Owner _accountOwner;
+
+        /// <summary>
+        /// The account bonus counting system
+        /// </summary>
         private IBonus _bonus;
 
+        /// <summary>
+        /// Initialize new instance of Account class
+        /// </summary>
+        /// <param name="accountNumber">The account number</param>
+        /// <param name="owner">The owner of the account</param>
+        /// <param name="bonus">The account bonus counting system</param>
         public Account(string accountNumber, Owner owner, IBonus bonus)
         {
             AccountNumber = accountNumber;
@@ -20,12 +36,15 @@ namespace DAL.Interface.DTO
             _bonus = bonus;
         }
 
+        /// <summary>
+        /// The account number
+        /// </summary>
         public string AccountNumber
         {
             get => _accountNumber;
             private set
             {
-                if (value != null && value != "")
+                if (value != null && value != string.Empty)
                 {
                     _accountNumber = value;
                 }
@@ -36,6 +55,9 @@ namespace DAL.Interface.DTO
             }
         }
 
+        /// <summary>
+        /// The account owner
+        /// </summary>
         public Owner AccountOwner
         {
             get => _accountOwner;
@@ -52,6 +74,9 @@ namespace DAL.Interface.DTO
             }
         }
 
+        /// <summary>
+        /// The account bonus counting system
+        /// </summary>
         public IBonus Bonus
         {
             get => _bonus;
@@ -61,12 +86,19 @@ namespace DAL.Interface.DTO
             }
         }
 
+        /// <summary>
+        /// The account current amount
+        /// </summary>
         public decimal CurrentAmount
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Withdraws given amount
+        /// </summary>
+        /// <param name="amount">The amount to withdraw</param>
         public void Withdraw(decimal amount)
         {
             CurrentAmount -= amount;
@@ -76,6 +108,10 @@ namespace DAL.Interface.DTO
             }
         }
 
+        /// <summary>
+        /// Deposits given amount
+        /// </summary>
+        /// <param name="amount">The amount to deposit</param>
         public void Deposit(decimal amount)
         {
             CurrentAmount += amount;
@@ -85,10 +121,14 @@ namespace DAL.Interface.DTO
             }
         }
 
+        /// <summary>
+        /// Provides the string representation of current account
+        /// </summary>
+        /// <returns>The string representation of current account</returns>
         public override string ToString()
         {
             return $"Account number: {AccountNumber} Owner: \"{AccountOwner}\" Current amount: {CurrentAmount}" + 
-                (_bonus != null ? $" Bonus score: {_bonus.BonusScore}" : "");
+                (_bonus != null ? $" Bonus score: {_bonus.BonusScore}" : string.Empty);
         }
     }
 }

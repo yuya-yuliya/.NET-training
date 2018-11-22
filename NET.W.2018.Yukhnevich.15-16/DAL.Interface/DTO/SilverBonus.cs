@@ -1,17 +1,18 @@
 ﻿using DAL.Interface.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Interface.DTO
 {
+    /// <summary>
+    /// Provides methods for counting silver bonus
+    /// </summary>
     public class SilverBonus : BaseBonus, IBonus
     {
+        /// <summary>
+        /// Initialize new instance of SilverBonus class
+        /// </summary>
         public SilverBonus()
         {
-            Multipluer = 20;
+            this._multiplier = 20;
         }
     }
 }

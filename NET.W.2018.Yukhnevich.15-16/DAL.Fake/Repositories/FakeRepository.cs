@@ -1,34 +1,55 @@
-﻿using DAL.Interface.DTO;
-using DAL.Interface.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL.Interface.DTO;
+using DAL.Interface.Interfaces;
 
 namespace DAL.Fake.Repositories
 {
+    /// <summary>
+    /// Provides methods for interact with some fake repository of the accounts
+    /// </summary>
     public class FakeRepository : IRepository
     {
+        /// <summary>
+        /// The accounts list
+        /// </summary>
         private List<Account> _accounts = new List<Account>();
 
+        /// <summary>
+        /// Closes the account
+        /// </summary>
+        /// <param name="accountNumber">The existing account number</param>
         public void CloseAccount(string accountNumber)
         {
             Account account = GetAccount(accountNumber);
             _accounts.Remove(account);
         }
 
+        /// <summary>
+        /// Deposits given amount to the account with given account number
+        /// </summary>
+        /// <param name="accountNumber">The account number</param>
+        /// <param name="amount">The amount to deposit</param>
         public void DepositAccount(string accountNumber, decimal amount)
         {
             Account account = GetAccount(accountNumber);
             account.Deposit(amount);
         }
 
+        /// <summary>
+        /// Gets all open accounts
+        /// </summary>
+        /// <returns>The enumeration of the account instance</returns>
         public IEnumerable<Account> GetAccounts()
         {
             return new List<Account>(_accounts);
         }
 
+        /// <summary>
+        /// Opens new account
+        /// </summary>
+        /// <param name="account">New account</param>
         public void OpenAccount(Account account)
         {
             if (_accounts.Find(acc => acc.AccountNumber == account.AccountNumber) == null)
@@ -41,12 +62,22 @@ namespace DAL.Fake.Repositories
             }
         }
 
+        /// <summary>
+        /// Withdraws given amount from the account with given account number
+        /// </summary>
+        /// <param name="accountNumber">The account number</param>
+        /// <param name="amount">The amount to withdraw</param>
         public void WithdrawAccount(string accountNumber, decimal amount)
         {
             Account account = GetAccount(accountNumber);
             account.Withdraw(amount);
         }
 
+        /// <summary>
+        /// Gets the account using it's number
+        /// </summary>
+        /// <param name="accountNumber"></param>
+        /// <returns>The enumeration of the accounts</returns>
         private Account GetAccount(string accountNumber)
         {
             var account = _accounts.Where((acc) => acc.AccountNumber == accountNumber).First();
@@ -54,6 +85,7 @@ namespace DAL.Fake.Repositories
             {
                 throw new ArgumentException($"Account with number {accountNumber} doesn't exists");
             }
+
             return account;
         }
     }
