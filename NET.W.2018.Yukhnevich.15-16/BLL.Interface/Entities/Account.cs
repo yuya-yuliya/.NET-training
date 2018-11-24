@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using DAL.Interface.Interfaces;
 
-namespace DAL.Interface.DTO
+namespace BLL.Interface.Entities
 {
     /// <summary>
     /// Represents information about the account and allows to interact with it
@@ -17,19 +15,19 @@ namespace DAL.Interface.DTO
         /// <summary>
         /// The account owner
         /// </summary>
-        private Owner _accountOwner;
+        private string _accountOwner;
 
         /// <summary>
         /// Initialize new instance of Account class
         /// </summary>
         /// <param name="accountNumber">The account number</param>
         /// <param name="owner">The owner of the account</param>
-        /// <param name="accountType">The account type</param>
-        public Account(string accountNumber, Owner owner, AccountType accountType)
+        /// <param name="type">The account type</param>
+        public Account(string accountNumber, string owner, AccountType type)
         {
             AccountNumber = accountNumber;
             AccountOwner = owner;
-            AccountType = accountType;
+            AccountType = type;
         }
 
         /// <summary>
@@ -54,12 +52,12 @@ namespace DAL.Interface.DTO
         /// <summary>
         /// The account owner
         /// </summary>
-        public Owner AccountOwner
+        public string AccountOwner
         {
             get => _accountOwner;
             private set
             {
-                if (value != null)
+                if (value != null && value != string.Empty)
                 {
                     _accountOwner = value;
                 }
@@ -86,40 +84,13 @@ namespace DAL.Interface.DTO
         public decimal CurrentAmount { get; set; }
 
         /// <summary>
-        /// Checks the equality
+        /// Provides the string representation of current account
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        /// <returns>The string representation of current account</returns>
+        public override string ToString()
         {
-            if (this == obj)
-            {
-                return true;
-            }
-
-            if (obj == null || obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            Account account = (Account)obj;
-            return account._accountNumber == this._accountNumber &&
-                this._accountOwner.Equals(account._accountOwner);
-        }
-
-        /// <summary>
-        /// Gets hash code of current instance
-        /// </summary>
-        /// <returns>The hash code</returns>
-        public override int GetHashCode()
-        {
-            var hashCode = -120320503;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(_accountNumber);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<Owner>.Default.GetHashCode(_accountOwner);
-            hashCode = (hashCode * -1521134295) + BonusCount.GetHashCode();
-            hashCode = (hashCode * -1521134295) + AccountType.GetHashCode();
-            hashCode = (hashCode * -1521134295) + CurrentAmount.GetHashCode();
-            return hashCode;
+            return $"Account number: {AccountNumber} Owner: \"{AccountOwner}\" Current amount: {CurrentAmount}" +
+                $"Bonus count: {BonusCount}";
         }
     }
 }

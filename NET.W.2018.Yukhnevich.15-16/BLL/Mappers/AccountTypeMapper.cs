@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using BLL.Interface.Entities;
-using DAL.Interface.DTO;
-using DAL.Interface.Interfaces;
+using System.Linq;
 
 namespace BLL.Mappers
 {
@@ -13,29 +11,39 @@ namespace BLL.Mappers
         /// <summary>
         /// Dictionary of account type mapping
         /// </summary>
-        private Dictionary<AccountType, IBonus> bonusMap = new Dictionary<AccountType, IBonus>
+        private static Dictionary<DAL.Interface.DTO.AccountType, Interface.Entities.AccountType> typeMap = new Dictionary<DAL.Interface.DTO.AccountType, Interface.Entities.AccountType>
         {
-            [AccountType.Base] = new BaseBonus(),
-            [AccountType.Silver] = new SilverBonus(),
-            [AccountType.Gold] = new GoldBonus(),
-            [AccountType.Platinum] = new PlatinumBonus()
+            [DAL.Interface.DTO.AccountType.Base] = Interface.Entities.AccountType.Base,
+            [DAL.Interface.DTO.AccountType.Silver] = Interface.Entities.AccountType.Silver,
+            [DAL.Interface.DTO.AccountType.Gold] = Interface.Entities.AccountType.Gold,
+            [DAL.Interface.DTO.AccountType.Platinum] = Interface.Entities.AccountType.Platinum
         };
 
         /// <summary>
-        /// Creates instance of class implemented IBonus interface that's match the account type
+        /// Gets business later account type corresponding to data layer account type
         /// </summary>
-        /// <param name="accountType">Type of account</param>
-        /// <returns>Instance of class implemented IBonus interface if for current account type bonus exists, otherwise null</returns>
-        public IBonus CreateBonus(AccountType accountType)
+        /// <param name="accountType">Data layer account type</param>
+        /// <returns>Business layer account type</returns>
+        public static Interface.Entities.AccountType GetBusinessAccountType(DAL.Interface.DTO.AccountType accountType)
         {
-            try
+            if (typeMap.TryGetValue(accountType, out Interface.Entities.AccountType bonus))
             {
-                return bonusMap[accountType];
+                return bonus;
             }
-            catch (KeyNotFoundException)
+            else
             {
-                return null;
+                return Interface.Entities.AccountType.Unknown;
             }
+        }
+
+        /// <summary>
+        /// Gets data later account type corresponding to business layer account type
+        /// </summary>
+        /// <param name="accountType">Business layer account type</param>
+        /// <returns>Data layer account type</returns>
+        public static DAL.Interface.DTO.AccountType GetDataAccountType(Interface.Entities.AccountType accountType)
+        {
+            return typeMap.FirstOrDefault(t => t.Value == accountType).Key;
         }
     }
 }

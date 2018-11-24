@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BLL.Interface.Entities;
+using System.Linq;
 using BLL.Interface.Interfaces;
 using BLL.Mappers;
-using DAL.Interface.DTO;
 using DAL.Interface.Interfaces;
 
 namespace BLL.ServiceImplementation
@@ -50,16 +49,18 @@ namespace BLL.ServiceImplementation
         /// <param name="amount">The amount to deposit</param>
         public void DepositAccount(string accountNumber, decimal amount)
         {
-            _repository.DepositAccount(accountNumber, amount);
+            DAL.Interface.DTO.Account account = _repository.GetAccount(accountNumber);
+            IBonus bonus = new BonusCounter().GetBonus(AccountTypeMapper.GetBusinessAccountType(account.AccountType));
+            _repository.DepositAccount(accountNumber, amount, bonus.GetAddBonus(amount));
         }
 
         /// <summary>
         /// Gets all accounts in the repository
         /// </summary>
         /// <returns>The accounts enumeration</returns>
-        public IEnumerable<Account> GetAllAccounts()
+        public IEnumerable<Interface.Entities.Account> GetAllAccounts()
         {
-            return _repository.GetAccounts();
+            return _repository.GetAccounts().Select(acc => AccountMapper.MapToBusiness(acc));
         }
 
         /// <summary>
@@ -68,14 +69,12 @@ namespace BLL.ServiceImplementation
         /// <param name="accountOwner">The owner of the account</param>
         /// <param name="accountType">The account type</param>
         /// <param name="numberCreateService">Service for creating unique account number</param>
-        public void OpenAccount(string accountOwner, AccountType accountType, IAccountNumberCreateService numberCreateService)
+        public void OpenAccount(string accountOwner, Interface.Entities.AccountType accountType, IAccountNumberCreateService numberCreateService)
         {
             string accountNumber = numberCreateService.GetNumber();
-            Owner owner = ParseOwner(accountOwner);
-            IBonus bonus = new AccountTypeMapper().CreateBonus(accountType);
-            Account account = new Account(accountNumber, owner, bonus);
+            Interface.Entities.Account account = new Interface.Entities.Account(accountNumber, accountOwner, accountType);
 
-            _repository.OpenAccount(account);
+            _repository.OpenAccount(AccountMapper.MapToData(account));
         }
 
         /// <summary>
@@ -85,27 +84,9 @@ namespace BLL.ServiceImplementation
         /// <param name="amount">The amount to withdraw</param>
         public void WithdrawAccount(string accountNumber, decimal amount)
         {
-            _repository.WithdrawAccount(accountNumber, amount);
-        }
-
-        /// <summary>
-        /// Parse owner string to the instance of Owner class
-        /// </summary>
-        /// <param name="ownerStr">The owner string</param>
-        /// <returns>The instance of Owner class</returns>
-        private Owner ParseOwner(string ownerStr)
-        {
-            string separator = " ";
-            string[] ownerNameParts = ownerStr.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            if (ownerNameParts.Length < 2)
-            {
-                throw new ArgumentException("Owner must have first and last names separeted by space");
-            }
-
-            string[] secondNameParts = new string[ownerNameParts.Length - 1];
-            Array.Copy(ownerNameParts, 1, secondNameParts, 0, secondNameParts.Length);
-            string secondName = string.Join(separator, secondNameParts);
-            return new Owner(ownerNameParts[0], secondName);
+            DAL.Interface.DTO.Account account = _repository.GetAccount(accountNumber);
+            IBonus bonus = new BonusCounter().GetBonus(AccountTypeMapper.GetBusinessAccountType(account.AccountType));
+            _repository.WithdrawAccount(accountNumber, amount, bonus.GetSubBonus(amount));
         }
     }
 }

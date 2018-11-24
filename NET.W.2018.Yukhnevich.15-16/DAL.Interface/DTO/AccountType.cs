@@ -1,14 +1,13 @@
-﻿namespace BLL.Interface.Entities
+﻿namespace DAL.Interface.DTO
 {
     /// <summary>
-    /// The enum of account types
+    /// Represents types of accounts
     /// </summary>
     public enum AccountType
     {
         Base,
         Silver,
         Gold,
-        Platinum,
-        Unknown
+        Platinum
     }
 }

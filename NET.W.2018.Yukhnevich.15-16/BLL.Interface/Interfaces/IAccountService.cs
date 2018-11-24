@@ -15,7 +15,7 @@ namespace BLL.Interface.Interfaces
         /// <param name="accountOwner">The owner of new account</param>
         /// <param name="accountType">The account type</param>
         /// <param name="numberCreateService">The service for creating account number</param>
-        void OpenAccount(string accountOwner, AccountType accountType, IAccountNumberCreateService numberCreateService);
+        void OpenAccount(string accountOwner, Entities.AccountType accountType, IAccountNumberCreateService numberCreateService);
         
         /// <summary>
         /// Closes the account
@@ -27,7 +27,7 @@ namespace BLL.Interface.Interfaces
         /// Gets all open accounts
         /// </summary>
         /// <returns>The enumeration of the account instance</returns>
-        IEnumerable<Account> GetAllAccounts();
+        IEnumerable<Entities.Account> GetAllAccounts();
 
         /// <summary>
         /// Deposits given amount to the account with given account number

@@ -31,10 +31,12 @@ namespace DAL.Fake.Repositories
         /// </summary>
         /// <param name="accountNumber">The account number</param>
         /// <param name="amount">The amount to deposit</param>
-        public void DepositAccount(string accountNumber, decimal amount)
+        /// <param name="bonus">The bonus points to add</param>
+        public void DepositAccount(string accountNumber, decimal amount, int bonus)
         {
             Account account = GetAccount(accountNumber);
-            account.Deposit(amount);
+            account.CurrentAmount += amount;
+            account.BonusCount += bonus;
         }
 
         /// <summary>
@@ -67,18 +69,20 @@ namespace DAL.Fake.Repositories
         /// </summary>
         /// <param name="accountNumber">The account number</param>
         /// <param name="amount">The amount to withdraw</param>
-        public void WithdrawAccount(string accountNumber, decimal amount)
+        /// <param name="bonus">The bonus points to subtract</param>
+        public void WithdrawAccount(string accountNumber, decimal amount, int bonus)
         {
             Account account = GetAccount(accountNumber);
-            account.Withdraw(amount);
+            account.CurrentAmount -= amount;
+            account.BonusCount -= bonus;
         }
 
         /// <summary>
         /// Gets the account using it's number
         /// </summary>
-        /// <param name="accountNumber"></param>
-        /// <returns>The enumeration of the accounts</returns>
-        private Account GetAccount(string accountNumber)
+        /// <param name="accountNumber">The number of the account</param>
+        /// <returns>The account with given number</returns>
+        public Account GetAccount(string accountNumber)
         {
             var account = _accounts.Where((acc) => acc.AccountNumber == accountNumber).First();
             if (account == null)

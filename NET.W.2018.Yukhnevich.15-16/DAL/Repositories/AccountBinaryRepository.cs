@@ -15,7 +15,12 @@ namespace DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public void DepositAccount(string accountNumber, decimal amount)
+        public void DepositAccount(string accountNumber, decimal amount, int bonus)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Account GetAccount(string accountNumber)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +35,7 @@ namespace DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public void WithdrawAccount(string accountNumber, decimal amount)
+        public void WithdrawAccount(string accountNumber, decimal amount, int bonus)
         {
             throw new NotImplementedException();
         }

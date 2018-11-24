@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DAL.Interface.DTO
 {
@@ -104,6 +105,18 @@ namespace DAL.Interface.DTO
             Owner owner = (Owner)obj;
             return owner.FirstName == this.FirstName &&
                 owner.LastName == this.LastName;
+        }
+
+        /// <summary>
+        /// Gets hash code of current instance
+        /// </summary>
+        /// <returns>The hash code</returns>
+        public override int GetHashCode()
+        {
+            var hashCode = 1464659268;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(_firstName);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(_lastName);
+            return hashCode;
         }
 
         /// <summary>
