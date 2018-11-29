@@ -4,6 +4,6 @@ https://github.com/AnzhelikaKravchuk?tab=repositories
 https://github.com/AnzhelikaKravchuk/2017-2018.MMF.BSU
 https://habrahabr.ru/company/it-grad/blog/341486/ 
 результирующим является XML-документ вида (можно использовать любую XML технологию без ограничений).
-![XML example](https://github.com/yuya-yuliya/.NET-training/tree/master/NET.W.2018.Yukhnevich.18/Pictures/Example.png)
+![XML example](https://github.com/yuya-yuliya/.NET-training/blob/master/NET.W.2018.Yukhnevich.18/Pictures/Example.PNG)
 Для тех URL-адресов, которые не совпадают с данным паттерном, “залогировать” информацию, отметив указанные строки, как необработанные. 
 Продемонстрировать работу на примере консольного приложения.
