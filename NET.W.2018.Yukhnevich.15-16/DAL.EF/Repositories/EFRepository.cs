@@ -45,8 +45,8 @@ namespace DAL.EF.Repositories
                 var account = bankEntities.Account.FirstOrDefault(acc => acc.Number == accountNumber);
                 if (account != null)
                 {
-                    account.BonusCount -= bonus;
-                    account.Amount -= amount;
+                    account.BonusCount += bonus;
+                    account.Amount += amount;
                 }
                 else
                 {
@@ -66,18 +66,34 @@ namespace DAL.EF.Repositories
         {
             using (BankEntities bankEntities = new BankEntities())
             {
-                return (from account in bankEntities.Account
+                var dbAccount = (from account in bankEntities.Account
                         where account.IsOpen && account.Number == accountNumber
                         join owner in bankEntities.Owner
                         on account.OwnerId equals owner.OwnerId
-                        select (new Interface.DTO.Account(
-                            account.Number,
-                            new Interface.DTO.Owner(owner.Name, owner.Surname),
-                            AccountTypeConverter.StringToAccountType(account.Type))
+                        select new
                         {
+                            Number = account.Number,
+                            OwnerName = account.Owner.Name,
+                            OwnerSurname = account.Owner.Surname,
+                            AccountType = account.Type,
                             CurrentAmount = account.Amount,
                             BonusCount = account.BonusCount
-                        })).FirstOrDefault();
+                        }).FirstOrDefault();
+                if (dbAccount != null)
+                {
+                    return new Interface.DTO.Account(
+                            dbAccount.Number,
+                            new Interface.DTO.Owner(dbAccount.OwnerName, dbAccount.OwnerSurname),
+                            AccountTypeConverter.StringToAccountType(dbAccount.AccountType))
+                    {
+                        CurrentAmount = dbAccount.CurrentAmount,
+                        BonusCount = dbAccount.BonusCount
+                    };
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -87,19 +103,32 @@ namespace DAL.EF.Repositories
         /// <returns>The enumeration of the account instance</returns>
         public IEnumerable<Interface.DTO.Account> GetAccounts()
         {
+            List<Interface.DTO.Account> accounts = new List<Interface.DTO.Account>();
             using (BankEntities bankEntities = new BankEntities())
             {
-                return (from account in bankEntities.Account
-                        where account.IsOpen
-                        select (new Interface.DTO.Account(
-                            account.Number,
-                            new Interface.DTO.Owner(account.Owner.Name, account.Owner.Surname),
-                            AccountTypeConverter.StringToAccountType(account.Type))
-                        {
-                            CurrentAmount = account.Amount,
-                            BonusCount = account.BonusCount
-                        })).ToList();
+                var dbAccounts = from account in bankEntities.Account
+                                where account.IsOpen
+                                select new
+                                {
+                                    Number = account.Number,
+                                    OwnerName = account.Owner.Name,
+                                    OwnerSurname = account.Owner.Surname,
+                                    AccountType = account.Type,
+                                    CurrentAmount = account.Amount,
+                                    BonusCount = account.BonusCount
+                                };
+                
+                foreach (var account in dbAccounts)
+                {
+                    accounts.Add(new Interface.DTO.Account(account.Number, new Interface.DTO.Owner(account.OwnerName, account.OwnerSurname), AccountTypeConverter.StringToAccountType(account.AccountType))
+                    {
+                        CurrentAmount = account.CurrentAmount,
+                        BonusCount = account.BonusCount
+                    });
+                }
             }
+
+            return accounts;
         }
 
         /// <summary>
@@ -116,15 +145,18 @@ namespace DAL.EF.Repositories
                     accOwner = bankEntities.Owner.Add(new Owner() { Name = account.AccountOwner.FirstName, Surname = account.AccountOwner.LastName });
                 }
 
-                bankEntities.Account.Add(new Account()
+                Account dbAccount = bankEntities.Account.Add(new Account()
                 {
                     Number = account.AccountNumber,
                     Amount = account.CurrentAmount,
                     BonusCount = account.BonusCount,
                     IsOpen = true,
                     Type = AccountTypeConverter.AccountTypeToString(account.AccountType),
+                    Owner = accOwner,
                     OwnerId = accOwner.OwnerId
                 });
+
+                bankEntities.SaveChanges();
             }
         }
 
