@@ -20,7 +20,8 @@ namespace BLL.Mappers
                 ParseOwner(account.AccountOwner), 
                 AccountTypeMapper.GetDataAccountType(account.AccountType))
             {
-                BonusCount = account.BonusCount
+                BonusCount = account.BonusCount,
+                CurrentAmount = account.CurrentAmount
             };
         }
 
@@ -36,7 +37,8 @@ namespace BLL.Mappers
                 account.AccountOwner.ToString(),
                 AccountTypeMapper.GetBusinessAccountType(account.AccountType))
             {
-                BonusCount = account.BonusCount
+                BonusCount = account.BonusCount,
+                CurrentAmount = account.CurrentAmount
             };
         }
 

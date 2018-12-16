@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BLL.Mappers
@@ -32,7 +33,7 @@ namespace BLL.Mappers
             }
             else
             {
-                return Interface.Entities.AccountType.Unknown;
+                throw new ArgumentException("Invalud account type");
             }
         }
 

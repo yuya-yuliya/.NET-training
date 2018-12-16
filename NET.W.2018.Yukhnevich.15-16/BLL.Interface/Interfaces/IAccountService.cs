@@ -42,5 +42,20 @@ namespace BLL.Interface.Interfaces
         /// <param name="accountNumber">The account number</param>
         /// <param name="amount">The amount to withdraw</param>
         void WithdrawAccount(string accountNumber, decimal amount);
+
+        /// <summary>
+        /// Gets the account using it's number
+        /// </summary>
+        /// <param name="accountNumber">The number of the account</param>
+        /// <returns>The account with given number</returns>
+        Entities.Account GetAccount(string accountNumber);
+
+        /// <summary>
+        /// Transfers the amount from one account to other
+        /// </summary>
+        /// <param name="fromAccountNumber">The account to withdraw</param>
+        /// <param name="toAccountNumber">The account to deposit</param>
+        /// <param name="amount">The transfer amount</param>
+        void Transfer(string fromAccountNumber, string toAccountNumber, decimal amount);
     }
 }

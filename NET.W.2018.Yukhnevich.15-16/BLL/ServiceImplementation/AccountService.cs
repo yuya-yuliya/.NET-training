@@ -88,5 +88,57 @@ namespace BLL.ServiceImplementation
             IBonus bonus = new BonusCounter().GetBonus(AccountTypeMapper.GetBusinessAccountType(account.AccountType));
             _repository.WithdrawAccount(accountNumber, amount, bonus.GetSubBonus(amount));
         }
+
+        /// <summary>
+        /// Gets the account using it's number
+        /// </summary>
+        /// <param name="accountNumber">The number of the account</param>
+        /// <returns>The account with given number</returns>
+        public Interface.Entities.Account GetAccount(string accountNumber)
+        {
+            return AccountMapper.MapToBusiness(_repository.GetAccount(accountNumber));
+        }
+
+        /// <summary>
+        /// Transfers the amount from one account to other
+        /// </summary>
+        /// <param name="fromAccountNumber">The account to withdraw</param>
+        /// <param name="toAccountNumber">The account to deposit</param>
+        /// <param name="amount">The transfer amount</param>
+        public void Transfer(string fromAccountNumber, string toAccountNumber, decimal amount)
+        {
+            DAL.Interface.DTO.Account fromAccount = _repository.GetAccount(fromAccountNumber);
+            if (fromAccount != null)
+            {
+                DAL.Interface.DTO.Account toAccount = _repository.GetAccount(toAccountNumber);
+                if (toAccount != null)
+                {
+                    bool wasWithdraw = false;
+                    try
+                    {
+                        WithdrawAccount(fromAccountNumber, amount);
+                        wasWithdraw = true;
+                        DepositAccount(toAccountNumber, amount);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (wasWithdraw)
+                        {
+                            DepositAccount(fromAccountNumber, amount);
+                        }
+
+                        throw ex;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Wrong deposit account number");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Wrong withdraw account number");
+            }
+        }
     }
 }

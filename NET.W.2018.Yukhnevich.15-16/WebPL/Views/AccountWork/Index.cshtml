@@ -1,0 +1,53 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "Account";
+}
+
+@model BLL.Interface.Entities.Account
+
+<div class="jumbotron">
+    <h1>Account number:</h1>
+    <h2>@Model.AccountNumber</h2>
+    <p class="lead">
+        Account owner:
+        @Model.AccountOwner<br />
+        Account type:
+        @Model.AccountType
+    </p>
+    <span class="badge badge-pill badge-success">Amount: @Model.CurrentAmount.ToString("N")</span>
+    <span class="badge badge-pill badge-primary">Bonus count: @Model.BonusCount</span>
+</div>
+@if (TempData["Alert"] != null)
+{
+    if ((bool)TempData["IsSuccess"])
+    {
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">@TempData["Alert"]</h4>
+            <p>@TempData["AlertMessage"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">@TempData["Alert"]</h4>
+            <p>@TempData["AlertMessage"]</p>
+        </div>
+    }
+}
+        <div class="container">
+            <hr />
+            @using (Html.BeginForm("AccountAction", "AccountWork", FormMethod.Post))
+            {
+                <input type="text" name="id" class="invisible d-none" value="@Model.AccountNumber" />
+                <button name="Action" value="Deposit" class="btn btn-outline-success">Deposit</button>
+                <button name="Action" value="Withdraw" class="btn btn-outline-warning">Withdraw</button>
+                <button name="Action" value="Transfer" class="btn btn-outline-warning">Transfer to account</button>
+            }
+            <hr />
+            @using (Html.BeginForm("Close", "AccountWork", FormMethod.Post))
+            {
+                <input type="text" name="id" class="invisible d-none" value="@Model.AccountNumber" />
+                <button class="btn btn-outline-danger">Close account</button>
+            }
+        </div>

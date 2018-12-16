@@ -8,7 +8,6 @@
         Base,
         Silver,
         Gold,
-        Platinum,
-        Unknown
+        Platinum
     }
 }

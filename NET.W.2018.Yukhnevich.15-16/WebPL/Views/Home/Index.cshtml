@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BLL.Interface.Entities.Account>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Bank accounts</h1>
+    <p class="lead">Choose the account number to start</p>
+</div>
+
+@if (TempData["IsSuccess"] != null && (bool)TempData["IsSuccess"])
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["AlertMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="container">
+    <hr />
+    @Html.ActionLink("Open account", "Open", new { }, new { @class = "btn btn-outline-success" })
+    <hr />
+</div>
+
+<div class="list-group col-lg-6 mx-auto">
+    @foreach (var c in Model)
+    {
+        @Html.ActionLink(c.AccountNumber + " (" + c.AccountOwner + ")", "Index", "AccountWork",
+                new { id = c.AccountNumber }, new { @class = "list-group-item" })
+    }
+</div>

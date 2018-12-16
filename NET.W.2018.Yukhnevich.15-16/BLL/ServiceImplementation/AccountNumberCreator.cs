@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 using BLL.Interface.Interfaces;
 
@@ -10,18 +11,12 @@ namespace BLL.ServiceImplementation
     public class AccountNumberCreator : IAccountNumberCreateService
     {
         /// <summary>
-        /// Count of generated account numbers
-        /// </summary>
-        private long _count = 0;
-
-        /// <summary>
         /// Gets account number
         /// </summary>
         /// <returns>String represent account number</returns>
         public string GetNumber()
         {
-            long baseNumber = _count++;
-            return GetHash(baseNumber.ToString());
+            return GetHash(DateTime.Now.ToString());
         }
 
         /// <summary>

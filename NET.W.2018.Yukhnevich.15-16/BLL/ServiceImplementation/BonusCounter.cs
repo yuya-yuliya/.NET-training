@@ -16,8 +16,7 @@ namespace BLL.ServiceImplementation
             [AccountType.Base] = 10,
             [AccountType.Silver] = 20,
             [AccountType.Gold] = 50,
-            [AccountType.Platinum] = 100,
-            [AccountType.Unknown] = 0
+            [AccountType.Platinum] = 100
         };
 
         /// <summary>
